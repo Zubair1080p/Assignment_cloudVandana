@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Survey Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Survey Form</h2>
+        <form id="surveyForm" onsubmit="return submitForm()">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" required>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" required>
+
+            <label for="country">Country:</label>
+            <select id="country" required>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="UK">UK</option>
+                <!-- Add more countries as needed -->
+            </select>
+
+            <label>Gender:</label>
+            <label for="male">Male</label>
+            <input type="radio" id="male" name="gender" value="Male">
+            
+            <label for="female">Female</label>
+            <input type="radio" id="female" name="gender" value="Female">
+            
+            <label for="other">Other</label>
+            <input type="radio" id="other" name="gender" value="Other">
+            
+
+            <label for="profession">Profession:</label>
+            <input type="text" id="profession" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="mobile">Mobile Number:</label>
+            <input type="tel" id="mobile" required>
+
+            <br><button type="submit">Submit</button>
+            <button type="button" onclick="resetForm()">Reset</button>
+        </form>
+    </div>
+
+    <div id="popup" style="display: none;">
+        <h2>Submitted Data</h2>
+        <ul id="dataList"></ul>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        function submitForm() {
+            // Gather form data
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const dob = document.getElementById("dob").value;
+            const country = document.getElementById("country").value;
+            const gender = Array.from(document.querySelectorAll("input[name='gender']:checked"))
+                .map(input => input.value);
+            const profession = document.getElementById("profession").value;
+            const email = document.getElementById("email").value;
+            const mobile = document.getElementById("mobile").value;
+
+            // Validate the data (you can add more validation logic here)
+            if (!firstName || !lastName || !dob || !country || gender.length === 0 || !profession || !email || !mobile) {
+                alert("Please fill in all required fields.");
+                return false;
+            }
+
+            // Display the submitted data in a popup
+            const dataList = document.getElementById("dataList");
+            dataList.innerHTML = "";
+            dataList.innerHTML += `<li><b>First Name:</b> ${firstName}</li>`;
+            dataList.innerHTML += `<li><b>Last Name:</b> ${lastName}</li>`;
+            dataList.innerHTML += `<li><b>Date of Birth:</b> ${dob}</li>`;
+            dataList.innerHTML += `<li><b>Country:</b> ${country}</li>`;
+            dataList.innerHTML += `<li><b>Gender:</b> ${gender.join(", ")}</li>`;
+            dataList.innerHTML += `<li><b>Profession:</b> ${profession}</li>`;
+            dataList.innerHTML += `<li><b>Email:</b> ${email}</li>`;
+            dataList.innerHTML += `<li><b>Mobile Number:</b> ${mobile}</li>`;
+
+            document.getElementById("popup").style.display = "block";
+
+            // Clear the form
+            resetForm();
+
+            return false;
+        }
+
+        function resetForm() {
+            document.getElementById("surveyForm").reset();
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+</body>
+</html>
